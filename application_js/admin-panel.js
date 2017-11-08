@@ -1,4 +1,11 @@
 ﻿angular.module('admin-panel', [])
-.controller('panelcontroller', function ($scope) {
-    $scope.value = "Welcome to Admin Panel";
+
+.directive('panel',function(){
+    return {
+        restrict:'E',
+        controller: function ($scope) {
+            $scope.value = 'Welcome';
+        },
+        templateUrl: application_js + '/templates/panel.html'
+    }
 });
