@@ -1,0 +1,226 @@
+﻿<div class="slds">
+    <br />
+    <div class="slds-active" ng-cloak>
+        <div id="tab-container" class="slds-grid slds-wrap slds-context-bar custom-bar">
+            <nav class="slds-col--bump-left slds-context-bar__secondary tabList" role="navigation" as-sortable="dropTabControlListeners" ng-model="Tabs">
+                <ul class="slds-grid slds-wrap">
+                    <li class="slds-context-bar__item slds-context-bar__item_divider-right custom-li" ng-repeat="tab in Tabs" ng-click="setTab($index)" ng-class="tab.Id == selectedTab.Id?'testClass':''" data-as-sortable-item>
+                        <div class="slds-truncate">
+                            <div class="slds-grid slds-wrap editableDiv">
+                                <div class="slds-col--bump-left" data-as-sortable-item-handle>
+                                    <svg class="slds-icon" aria-hidden="true">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#justify_text"></use>
+                                    </svg>
+                                </div>
+                                <div class="slds-col editableDiv" content-editable ng-model="tab.Name" contenteditable="true"></div>
+                                <div class="slds-col--bump-right" ng-click="deleteTab($index)">
+                                    <svg class="slds-icon" aria-hidden="true" data-reactid="3492">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#delete" data-reactid="3493"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="slds-col--bump-right buttonHolder">
+                <button class="slds-button slds-button--brand" ng-click="addTab()">Add New Tab</button>
+                <button class="slds-button slds-button--neutral" ng-click="saveQuize()">Save</button>
+                <button class="slds-button slds-button--neutral" ng-click="cancelSave()">Cancel</button>
+            </div>
+        </div>
+
+        <div ng-show="selectedTab != undefined" class="slds-form slds-form_stacked slds-grow slds-scrollable_y slds-grid slds-grid_vertical" ng-cloak>
+            <div class="tab-container">
+                <div class="slds-section questionListSection">
+                    <div class="header slds-grid slds-wrap">
+                        <div class="slds-col--bump-right">Tab Properties</div>
+                        <div ng-show="!selectedTab.isPropertiesExpanded" ng-click="selectedTab.isPropertiesExpanded = selectedTab.isPropertiesExpanded ? false : true" class="slds-col--bump-left slds-icon_container null slds-icon__svg--default" data-reactid="3491">
+                            <span class="slds-icon_container slds-icon_container--circle expandable">
+                                <svg class="slds-icon slds-icon--small custom-icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <div ng-show="selectedTab.isPropertiesExpanded" ng-click="selectedTab.isPropertiesExpanded = selectedTab.isPropertiesExpanded ? false : true" class="slds-col--bump-left slds-icon_container null slds-icon__svg--default" data-reactid="3491">
+                            <span class="slds-icon_container slds-icon_container--circle expandable">
+                                <svg class="slds-icon slds-icon--small custom-icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="selectedTab.isPropertiesExpanded" class="tab-properties">
+
+                        <div class="slds-grid slds-wrap">
+
+                            <div class="slds-form-element slds-col--padded slds-large-size--6-of-12 tabProperty">
+                                <label class="slds-form-element__label" for="select-01">Tab Name</label>
+                                <div class="slds-form-element__control">
+                                    <input type="text" class="slds-input" placeholder="Tab Name" ng-model="selectedTab.Name" />
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-col--padded slds-large-size--6-of-12 tabProperty">
+                                <label class="slds-form-element__label">Tab Type</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select ng-model="selectedTab.Type" ng-options="o as o for o in $root.tabTypes" class="slds-select"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-col--padded slds-large-size--6-of-12 tabProperty">
+                                <label class="slds-form-element__label">Object Name</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <select ng-model="selectedTab.Object" ng-options="o as o for o in $root.objectNames" class="slds-select"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-col--padded slds-large-size--6-of-12 tabProperty">
+                                <label class="slds-form-element__label" for="select-01">Question View</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-grid slds-wrap joint-toggle">
+                                        <label onclick="" class="slds-col--padded toggle-btn" ng-class="selectedTab.viewMode == 'One Column' ?'Success':''"><input type="radio" ng-model="selectedTab.viewMode" name="viewMode" value="One Column" class="visuallyhidden">One Column</label>
+                                        <label onclick="" class="slds-col--padded toggle-btn" ng-class="selectedTab.viewMode == 'Two Column' ?'Success':''"><input type="radio" ng-model="selectedTab.viewMode" name="viewMode" value="Two Column" class="visuallyhidden">Two Column</label>
+                                        <label onclick="" class="slds-col--padded toggle-btn" ng-class="selectedTab.viewMode == 'Three Column' ?'Success':''"><input type="radio" ng-model="selectedTab.viewMode" name="viewMode" value="Three Column" class="visuallyhidden">Three Column</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="buttonHolder">
+                            <button class="slds-button slds-button--neutral" ng-click="saveTab()">Save</button>
+                            <button class="slds-button slds-button--neutral" ng-click="cancelTabProperties()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="isTabSaved" class="slds-section questionListSection">
+                    <div class="header slds-grid slds-wrap">
+                        <div class="slds-col--bump-right">Questions</div>
+                        <div ng-show="!selectedTab.isQuestionListExpanded" ng-click="selectedTab.isQuestionListExpanded = selectedTab.isQuestionListExpanded ? false : true" class="slds-col--bump-left slds-icon_container null slds-icon__svg--default" data-reactid="3491">
+                            <span class="slds-icon_container slds-icon_container--circle expandable">
+                                <svg class="slds-icon slds-icon--small custom-icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <div ng-show="selectedTab.isQuestionListExpanded" ng-click="selectedTab.isQuestionListExpanded = selectedTab.isQuestionListExpanded ? false : true" class="slds-col--bump-left slds-icon_container null slds-icon__svg--default" data-reactid="3491">
+                            <span class="slds-icon_container slds-icon_container--circle expandable">
+                                <svg class="slds-icon slds-icon--small custom-icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div ng-show="selectedTab.isQuestionListExpanded" class="slds-filters custom-width">
+                        <br />
+                        <div ng-show="selectedTab.Questions.length > 0" class="buttonHolder buttonBarTop">
+                            <button class="slds-button slds-button--brand" ng-click="toggleAllQuestions()">
+                                {{!selectedTab.allQuestionCollapsed ? 'Collapse All Questions' : 'Expand All Questions'}}
+                                <svg ng-show="!selectedTab.allQuestionCollapsed" class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true" title="Collapse all question details">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                </svg>
+                                <svg ng-show="selectedTab.allQuestionCollapsed" class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true" title="Expand all question details">
+                                    <use xmlns:xlink=" http />/www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                </svg>
+                            </button>
+                            <button class="slds-button slds-button--brand" ng-click="addNewQuestion('first')">Add New Question</button>
+                            <button class="slds-button slds-button--neutral" ng-click="saveAllQuestions()">Save All Question</button>
+                            <button class="slds-button slds-button--neutral" ng-click="cancelAllQuestionsChange()">Cancel</button>
+                        </div><br />
+                        <div class="questionList" as-sortable="dropQuestionControlListeners" ng-model="selectedTab.Questions">
+                            <div ng-repeat="question in selectedTab.Questions" data-as-sortable-item>
+                                <div>
+                                    <div class="slds-grid slds-wrap questionHeader">
+                                        <div data-as-sortable-item-handle class="slds-col--bump-right">
+                                            <svg class="slds-icon" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#justify_text"></use>
+                                            </svg>
+                                            {{question.Question}}
+                                        </div>
+                                        <div class="slds-col--bump-left">
+                                            <div ng-show="$index != selectedTab.Questions.length-1" class="slds-col--padded slds-icon_container null slds-icon__svg--default" ng-click="moveToBottom($index)" data-reactid="3491" style="cursor: pointer">
+                                                <span>Move to Bottom</span>
+                                                <svg class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true" data-reactid="3492">
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#jump_to_bottom" data-reactid="3493"></use>
+                                                </svg>
+                                            </div>
+                                            <div ng-show="$index != 0" class="slds-col--padded slds-icon_container null slds-icon__svg--default" ng-click="moveToTop($index)" data-reactid="3491" style="cursor: pointer">
+                                                <span>Move to Top</span>
+                                                <svg class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true" data-reactid="3492">
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#jump_to_top" data-reactid="3493"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="slds-col--padded slds-icon_container null slds-icon__svg--default" ng-click="deleteQuestion($index, question.Id)" data-reactid="3491" title="Delete Question">
+                                                <svg class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true" data-reactid="3492">
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#delete" data-reactid="3493"></use>
+                                                </svg>
+                                            </div>
+                                            <div ng-show="!question.isExpanded" ng-click="expandQuestion($index)" class="slds-icon_container null slds-icon__svg--default" data-reactid="3491" title="Expand Question details">
+                                                <span class="slds-icon_container slds-icon_container--circle ">
+                                                    <svg class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true">
+                                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div ng-show="question.isExpanded" ng-click="collapseQuestion($index)" class="slds-icon_container null slds-icon__svg--default" data-reactid="3491" title="Collapse Question details">
+                                                <span class="slds-icon_container slds-icon_container--circle ">
+                                                    <svg class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true">
+                                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <question question="question" mode="'Edit'" index="$index" tab-id="selectedTab.Id" tab-index="selectedIndex" tab="selectedTab" configure-question="setVisibility(question_index)"><br />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="buttonHolder">
+                            <button class="slds-button slds-button--brand" ng-click="toggleAllQuestions()">
+                                {{!selectedTab.allQuestionCollapsed ? 'Collapse All Questions' : 'Expand All Questions'}}
+                                <svg ng-show="!selectedTab.allQuestionCollapsed" class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#dash"></use>
+                                </svg>
+                                <svg ng-show="selectedTab.allQuestionCollapsed" class="slds-icon slds-icon--small custom-icon question-icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" ng-href="{{$root.vendors}}/SLDC/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                </svg>
+                            </button>
+                            <button class="slds-button slds-button--brand" ng-click="addNewQuestion()">Add New Question</button>
+                            <button class="slds-button slds-button--neutral" ng-click="saveAllQuestions()">Save All Question</button>
+                            <button class="slds-button slds-button--neutral" ng-click="cancelAllQuestionsChange()()">Cancel</button>
+                        </div><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttonHolder" style="padding-right: 15px;">
+        <button ng-disabled="!isTabSaved || tabQuestionsLength <= 0" class=" slds-button slds-button--neutral" ng-click="showPreviw()">Preview</button>
+    </div>
+
+    <!--<select ng-model="selectedTab.Selectedvaluecntry" ng-options="o as o for o in $root.pickListValues['Countries__c']" class="chosen-select">
+        <option disabled></option>
+    </select>-->
+
+    <div id="visibilityModal" ng-show="$root.visibilityModal"></div>
+
+    <div id="confirmModal" ng-show="$root.showConfirm"></div>
+
+    <div ng-show="$root.preview">
+        <view slected-tab="selectedTab"></view>
+    </div>
+    <div class="demo-only" style="height: 6rem;">
+        <div role="status" class="slds-spinner slds-spinner_large slds-spinner_brand">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+</div>
+<toaster-container toaster-options="{'time-out': 15000}"></toaster-container>
+<!--
+<div><question question="BlankQuestion[0]" mode="'Edit'"></div>
+<div><question question="BlankQuestion[0]" mode="'View'"></div>-->
